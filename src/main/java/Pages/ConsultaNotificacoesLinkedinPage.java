@@ -40,9 +40,5 @@ public class ConsultaNotificacoesLinkedinPage extends UsefulConstants {
                     EmailServicePage.enviarRelatorioUsuario(relatorioVerificacaoNegativo);
 
                }
-
-               ClicoNoElemento(BOTAO_PERFIL);
-                    ClicoNoElemento(SAIR);
-                         UsefulConstants.close();
      }
 }
