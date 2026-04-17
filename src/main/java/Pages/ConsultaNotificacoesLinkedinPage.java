@@ -6,7 +6,7 @@ import javax.swing.JOptionPane;
 
 public class ConsultaNotificacoesLinkedinPage extends UsefulConstants {
 
-     public void ConsultaAparelhoAmazon() {
+     public void consultaNotificacoesLinkedin() {
 
           Xerxes.get("https://www.linkedin.com");
 
