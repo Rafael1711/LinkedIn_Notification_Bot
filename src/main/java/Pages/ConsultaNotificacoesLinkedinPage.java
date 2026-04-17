@@ -25,7 +25,7 @@ public class ConsultaNotificacoesLinkedinPage extends UsefulConstants {
                   System.out.println("Novas mensagens pendentes!");
 
                   String relatorioVerificacaoPositivo = "Fala, anjo moreno!\n" +
-                            "Acesse o Linkedin e verifique suasnotificações, tem mensagem pendente." +
+                            "Acesse o Linkedin e verifique suas notificações, tem mensagem pendente." +
                             "\n\nDiagnóstico gerado por seu amigo, Xerxes! ;)";
 
                   EmailServicePage.enviarRelatorioUsuario(relatorioVerificacaoPositivo);
