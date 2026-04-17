@@ -2,6 +2,8 @@ package Pages;
 
 import static Locators.Consulta_Notificacoes_Linkedin_Locators.*;
 
+import javax.swing.JOptionPane;
+
 public class ConsultaNotificacoesLinkedinPage extends UsefulConstants {
 
      public void ConsultaAparelhoAmazon() {
@@ -16,29 +18,67 @@ public class ConsultaNotificacoesLinkedinPage extends UsefulConstants {
           ClicoNoElemento(BOTAO_ENTRAR);
           Envio_O_Dado(CAMPO_LOGIN, LOGIN);
           Envio_O_Dado(CAMPO_SENHA, SENHA);
-               ClicoNoElemento(BOTAO_ENTRAR_LOGIN);
-                    VerificoTitulo(TITULO_PERFIL, STRING_TITULO_PERFIL);
+          ClicoNoElemento(BOTAO_ENTRAR_LOGIN);
 
-               boolean temMensagens = Xerxes.findElements(BADGE_MENSAGEM).size() > 0;
+          VerificoTitulo(TITULO_PERFIL, STRING_TITULO_PERFIL);
 
-               if(temMensagens){
-                  System.out.println("Novas mensagens pendentes!");
+          boolean temMensagens = Xerxes.findElements(BADGE_MENSAGEM).size() > 0;
 
-                  String relatorioVerificacaoPositivo = "Fala, anjo moreno!\n" +
-                            "Acesse o Linkedin e verifique suas notificações, tem mensagem pendente." +
-                            "\n\nDiagnóstico gerado por seu amigo, Xerxes! ;)";
+          String mensagemInicial;
+          String relatorio;
 
-                  EmailServicePage.enviarRelatorioUsuario(relatorioVerificacaoPositivo);
+          if (temMensagens) {
+               System.out.println("Novas mensagens pendentes!");
 
-               } else {
-                    System.out.println("Sem mensagens pendentes!");
+               mensagemInicial = "Novas mensagens pendentes!";
 
-                    String relatorioVerificacaoNegativo = "Fala, anjo moreno!\n" +
-                            "Não encontrei mensagens pendentes." +
-                            "\n\nDiagnóstico gerado por seu amigo, Xerxes! =)";
+               relatorio = "Fala, anjo moreno!\n" +
+                       "Acesse o Linkedin e verifique suas notificações, tem mensagem pendente." +
+                       "\n\nDiagnóstico gerado por seu amigo, Xerxes! ;)";
 
-                    EmailServicePage.enviarRelatorioUsuario(relatorioVerificacaoNegativo);
+          } else {
+               System.out.println("Sem mensagens pendentes!");
 
-               }
+               mensagemInicial = "Sem mensagens pendentes!";
+
+               relatorio = "Fala, anjo moreno!\n" +
+                       "Não encontrei mensagens pendentes." +
+                       "\n\nDiagnóstico gerado por seu amigo, Xerxes! =)";
+          }
+
+          // Fecha navegador
+          UsefulConstants.close();
+
+          // Modal 1 - status inicial
+          JOptionPane.showMessageDialog(null,
+                  mensagemInicial,
+                  "Status",
+                  JOptionPane.INFORMATION_MESSAGE);
+
+          // Modal 2 - envio
+          JOptionPane.showMessageDialog(null,
+                  "Enviando e-mail...",
+                  "Processo",
+                  JOptionPane.INFORMATION_MESSAGE);
+
+          try {
+               EmailServicePage.enviarRelatorioUsuario(relatorio);
+
+               // Modal sucesso
+               JOptionPane.showMessageDialog(null,
+                       "E-mail enviado com sucesso!",
+                       "Sucesso",
+                       JOptionPane.INFORMATION_MESSAGE);
+
+          } catch (Exception e) {
+
+               // Modal erro
+               JOptionPane.showMessageDialog(null,
+                       "Erro ao enviar e-mail!",
+                       "Erro",
+                       JOptionPane.ERROR_MESSAGE);
+
+               e.printStackTrace();
+          }
      }
 }

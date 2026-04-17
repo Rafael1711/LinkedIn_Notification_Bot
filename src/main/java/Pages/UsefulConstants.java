@@ -38,7 +38,6 @@ public class UsefulConstants {
             // Inicializa o WebDriver com as configurações
             Xerxes = new ChromeDriver(options);
             Xerxes.manage().window().maximize();
-            //Xerxes.get("https://resolvi.ia.br");
         }
     }
 

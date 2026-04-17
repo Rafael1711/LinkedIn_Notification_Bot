@@ -9,7 +9,7 @@ public class ChamadaDePaginas {
             start();
             ConsultaNotificacoesLinkedinPage consultaNotificacoesLinkedinPageObject = new ConsultaNotificacoesLinkedinPage();
                 consultaNotificacoesLinkedinPageObject.ConsultaAparelhoAmazon();
-                    UsefulConstants.close();
+
         } catch (Exception e) {
             System.err.println("Erro no teste Consulta_Notificações_Linkedin " + e.getMessage());
             e.printStackTrace();
