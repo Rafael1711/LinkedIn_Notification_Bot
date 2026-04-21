@@ -1,12 +1,16 @@
 package Pages;
 
-import static Locators.Consulta_Notificacoes_Linkedin_Locators.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 import javax.swing.JOptionPane;
+import java.util.List;
+
+import static Locators.Consulta_Notificacoes_Linkedin_Locators.*;
 
 public class ConsultaNotificacoesLinkedinPage extends UsefulConstants {
 
-     public void consultaNotificacoesLinkedin() {
+     public void consultaNotificacoesLinkedin() throws InterruptedException {
 
           Xerxes.get("https://www.linkedin.com");
 
@@ -20,61 +24,68 @@ public class ConsultaNotificacoesLinkedinPage extends UsefulConstants {
           Envio_O_Dado(CAMPO_SENHA, SENHA);
           ClicoNoElemento(BOTAO_ENTRAR_LOGIN);
 
-          VerificoTitulo(TITULO_PERFIL, STRING_TITULO_PERFIL);
+          Thread.sleep(4000);
 
-          boolean temMensagens = Xerxes.findElements(BADGE_MENSAGEM).size() > 0;
+          // 🔎 Verificação simples via badge de mensagens
+          List<WebElement> badges = Xerxes.findElements(BADGE_MENSAGEM);
+
+          boolean temMensagens = false;
+
+          if (!badges.isEmpty()) {
+               String valor = badges.get(0).getText().trim();
+
+               if (!valor.isEmpty() && !valor.equals("0")) {
+                    temMensagens = true;
+               }
+          }
 
           String mensagemInicial;
           String relatorio;
 
           if (temMensagens) {
-               System.out.println("Novas mensagens pendentes!");
-
-               mensagemInicial = "Novas mensagens pendentes!";
+               mensagemInicial = "📩 Novas mensagens pendentes!";
+               System.out.println(mensagemInicial);
 
                relatorio = "Fala, anjo moreno!\n" +
-                       "Acesse o Linkedin e verifique suas notificações, tem mensagem pendente." +
-                       "\n\nDiagnóstico gerado por seu amigo, Xerxes! ;)";
-
+                       "Você tem mensagens pendentes no LinkedIn.\n" +
+                       "Dá uma olhada lá 👀" +
+                       "\n\nXerxes te avisando 🤖";
           } else {
-               System.out.println("Sem mensagens pendentes!");
-
-               mensagemInicial = "Sem mensagens pendentes!";
+               mensagemInicial = "✅ Nenhuma mensagem pendente!";
+               System.out.println(mensagemInicial);
 
                relatorio = "Fala, anjo moreno!\n" +
-                       "Não encontrei mensagens pendentes." +
-                       "\n\nDiagnóstico gerado por seu amigo, Xerxes! =)";
+                       "Tudo certo! Nenhuma mensagem pendente no LinkedIn." +
+                       "\n\nXerxes cuidando de tudo 😎";
           }
 
           // Fecha navegador
           UsefulConstants.close();
 
-          // Modal 1 - status inicial
+          // Modal 1
           JOptionPane.showMessageDialog(null,
                   mensagemInicial,
                   "Status",
                   JOptionPane.INFORMATION_MESSAGE);
 
-          // Modal 2 - envio
+          // Modal 2
           JOptionPane.showMessageDialog(null,
-                  "Enviando e-mail...",
+                  "📤 Enviando e-mail...",
                   "Processo",
                   JOptionPane.INFORMATION_MESSAGE);
 
           try {
                EmailServicePage.enviarRelatorioUsuario(relatorio);
 
-               // Modal sucesso
                JOptionPane.showMessageDialog(null,
-                       "E-mail enviado com sucesso!",
+                       "✅ E-mail enviado com sucesso!",
                        "Sucesso",
                        JOptionPane.INFORMATION_MESSAGE);
 
           } catch (Exception e) {
 
-               // Modal erro
                JOptionPane.showMessageDialog(null,
-                       "Erro ao enviar e-mail!",
+                       "❌ Erro ao enviar e-mail!",
                        "Erro",
                        JOptionPane.ERROR_MESSAGE);
 
